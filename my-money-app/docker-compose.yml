@@ -1,0 +1,36 @@
+version: "2"
+services:
+  mongo:
+    container_name: mongo
+    image: mongo:3.6.9
+    ports:
+      - "27017:27017"
+      - "27018:27018"
+    volumes:
+      - /tmp/mongo-data:/data/db/
+    environment:
+      - POSTGRES_USER=root
+  node-back:
+    container_name: node-back
+    image: node:10.14.1
+    ports:
+      - "3003:3003"
+    volumes:
+      - ./backend:/home/node/app
+    environment:
+      - NODE_ENV=development
+    entrypoint: /home/node/app/entrypoint.sh
+    links:
+      - mongo
+  node-front:
+    container_name: node-front
+    image: node:10.14.1
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./frontend:/home/node/app
+    environment:
+      - NODE_ENV=development
+    entrypoint: /home/node/app/entrypoint.sh
+    links:
+      - node-back
