@@ -4,9 +4,9 @@ services:
     container_name: node
     image: node:10.14.1
     ports:
-      - "3003:3003"
+      - "8080:8080"
     volumes:
       - .:/home/node/app
     environment:
       - NODE_ENV=development
-    # entrypoint: /home/node/app/entrypoint.sh
+    entrypoint: /home/node/app/entrypoint.sh
